@@ -217,9 +217,14 @@ server
         }
         <div id="root">${markup}</div>
         <script>window.env = ${serialize(runtimeConfig)};</script>
+        ${runtimeConfig.EXTRA_JS_DEPS
+          ? runtimeConfig.EXTRA_JS_DEPS
+            .split(',')
+            .map(link => `<script src="${link}"></script>`)
+          : ''}
         ${runtimeConfig.EXTRA_JS
-            ? `<script>${runtimeConfig.EXTRA_JS}</script>`
-            : ''}
+          ? `<script defer>${runtimeConfig.EXTRA_JS}</script>`
+          : ''}
         ${jsScriptTagsFromAssets(assets, 'client', ' defer crossorigin')}
     </body>
     </html>`,
